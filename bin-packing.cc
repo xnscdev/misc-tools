@@ -131,12 +131,14 @@ main (void)
       std::cout << "\nFound best arrangement! Wasted+unfit space: "
 		<< best_score << ", extra space: " << best_left << std::endl;
       std::vector <std::pair <unsigned int, std::string>> extras;
+      unsigned int extras_sum = 0;
       auto item = best.begin ();
       while (item != best.end ())
 	{
 	  if (bin == bins.end () || item->first > *bin)
 	    {
 	      extras.push_back (*item);
+	      extras_sum += item->first;
 	      item++;
 	    }
 	  else if (curr + item->first > *bin)
@@ -148,7 +150,8 @@ main (void)
 	  else
 	    {
 	      if (!curr)
-		std::cout << "\n=== BIN " << i << " ===" << std::endl;
+		std::cout << "\n=== BIN " << i << " (" << *bin << ") ==="
+			  << std::endl;
 	      curr += item->first;
 	      std::cout << item->second << " (" << item->first << ")"
 			<< std::endl;
@@ -157,7 +160,7 @@ main (void)
 	}
       if (!extras.empty ())
 	{
-	  std::cout << "\n=== EXTRAS ===" << std::endl;
+	  std::cout << "\n=== EXTRAS (" << extras_sum << ") ===" << std::endl;
 	  for (const auto &item : extras)
 	    std::cout << item.second << " (" << item.first << ")" << std::endl;
 	}
